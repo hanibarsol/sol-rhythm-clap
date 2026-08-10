@@ -321,34 +321,11 @@
     border-radius: 14px;
     background: var(--card-bg);
     border-top: 3px solid var(--pink);
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
     font-size: 15.5px;
     line-height: 1.6;
     min-height: 1.7em;
   }
-  .program-note-text { flex: 1; min-width: 0; }
   .program-note-text p { margin: 0; }
-  .speak-button {
-    flex: none;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--paper);
-    background: var(--teal);
-    box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--teal) 70%, transparent);
-    transition: transform .12s ease;
-  }
-  .speak-button:hover { transform: scale(1.06); }
-  .speak-button:active { transform: scale(.95); }
-  .speak-button:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
-  .speak-button[hidden] { display: none; }
   .result-good { color: color-mix(in srgb, var(--pink) 85%, var(--fg)); font-weight: 700; }
   .result-retry { color: color-mix(in srgb, var(--teal) 80%, var(--fg)); font-weight: 700; }
 
@@ -399,13 +376,6 @@
   </main>
 
   <section class="program-note" id="programNote" aria-live="polite">
-    <button type="button" class="speak-button" id="speakButton" aria-label="הקריאו את ההנחיה בקול">
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-        <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"></path>
-        <path d="M16.3 8.7a5 5 0 0 1 0 6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-        <path d="M18.6 6.4a8.3 8.3 0 0 1 0 11.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-      </svg>
-    </button>
     <div class="program-note-text" id="programNoteText">
       <p>מי הכינה בשבילכם קצב קטן. לחצו על הכפתור כדי לשמוע איך היא נכנסת לקצב, ואז היכנסו לקצב יחד איתה, באותו הקצב בדיוק!</p>
     </div>
@@ -461,9 +431,6 @@
   var programNoteTextEl = document.getElementById("programNoteText");
   var streakNumEl = document.getElementById("streakNum");
   var fxCanvas = document.getElementById("fxCanvas");
-  var speakButton = document.getElementById("speakButton");
-  var speechSupported = "speechSynthesis" in window;
-  if (!speechSupported) speakButton.hidden = true;
 
   if (HAS_JUMP_VIDEO) {
     miVideoJumpEl.addEventListener("loadedmetadata", function () {
@@ -503,19 +470,6 @@
     pendingTimers.push(id);
     return id;
   }
-
-  /* ---------- text-to-speech for pre-readers ---------- */
-  function speakCurrentNote() {
-    if (!speechSupported) return;
-    var text = programNoteTextEl.textContent.trim();
-    if (!text) return;
-    window.speechSynthesis.cancel();
-    var utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "he-IL";
-    utter.rate = 0.95;
-    window.speechSynthesis.speak(utter);
-  }
-  speakButton.addEventListener("click", speakCurrentNote);
 
   /* ---------- synthesized sound ---------- */
   function playClap(when) {
