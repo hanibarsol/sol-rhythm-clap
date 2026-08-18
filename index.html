@@ -367,6 +367,10 @@
     .sol-home-btn { transition: none; }
     .sol-home-btn:hover { transform: none; }
 }
+
+  /* On a narrow phone the fixed home button reaches into the title — reserve
+     its corner rather than shrinking the heading. */
+  @media (max-width: 420px) { .curtain { padding-left: 66px; } }
 </style>
 <a class="sol-home-btn" href="https://portal.smoove.io/gsbmtbnbbf1yd87kbofd1/Category?category=qqb" target="_top" aria-label="חזרה למסך הבית">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
